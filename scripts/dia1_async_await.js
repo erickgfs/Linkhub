@@ -1,47 +1,28 @@
+const API_URL = "https://jsonplaceholder.typicode.com/users";
+
 async function getUsers() {
     try {
+        const response = await fetch(API_URL);
+        const users = await response.json();
 
-        let response = await fetch("https://jsonplaceholder.typicode.com/users");
-        let data = await response.json();
-        // console.log(data);
+        const userEmailsFromGwenborough = users.filter(
+            user => user.address.city === "Gwenborough"
+        ).map(
+            user => user.email
+        );
 
-        let filteredData = filterByCity(data, "Gwenborough");
-        console.log(filteredData);
+        console.log("Emails dos usuarios da cidade Gwenborough:", userEmailsFromGwenborough);
 
-        let emailList = getEmails(filteredData);
-        console.log(emailList);
+        const orgWebsiteCount = users.reduce((count, user) => {
+            if (user.website.includes(".org")) count++;
+            return count;
+        }, 0)
 
-        let numberWebSite = countWebSites(data, ".org");
-        console.log(numberWebSite);
-        
+        console.log("Número de usuarios com site .org", orgWebsiteCount);
+
     } catch(error) {
         console.log("Erro ao buscar dados", error);
     }
-
-
-}
-
-function filterByCity(data, city) {
-    let newData = data.filter(element => element.address.city === city);
-
-    return newData;
-}
-
-function getEmails(users) {
-    let emails = users.map(element => element.email);
-
-    return emails;
-}
-
-function countWebSites(data, endUrl) {
-    let countElements = data.reduce((accumulator, currentValue) => {
-        if(currentValue.website.includes(endUrl)) {
-            accumulator++
-        };
-        return accumulator;
-    }, 0);
-
-    return countElements;
 }
 
 getUsers();
