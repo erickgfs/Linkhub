@@ -1,7 +1,15 @@
+import { Profile } from "./components/Profile";
+import { LinkButton } from "./components/LinkButton";
+import { SocialIcons } from "./components/SocialIcons";
+
 function App() {
 
   return (
-    <h1>Olá, LinkHub!</h1>
+    <>
+      <Profile/>
+      <LinkButton/>
+      <SocialIcons/>
+    </>
   )
 }
 
