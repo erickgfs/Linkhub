@@ -1,5 +1,5 @@
-export function SocialIcons() {
+export function SocialIcons({title, url}) {
     return (
-        <div>SocialIcons</div>
+        <a className="hover:text-purple-500" href={url}>{title}</a>
     )
 }
