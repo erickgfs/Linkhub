@@ -1,5 +1,5 @@
 export function LinkButton({title, url}) {
     return (
-        <a className="bg-violet-500 w-md p-4 rounded-lg text-center hover:scale-105 transition-all mb-4" href={url}>{title}</a>
+        <a className="bg-brand-purple text-brand-light font-bold w-full max-w-xs rounded-lg text-center hover:scale-105 transition-transform p-4 mb-4" href={url}>{title}</a>
     )
 }
