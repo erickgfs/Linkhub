@@ -5,14 +5,27 @@ import "./globals.css"
 
 export function App() {
 
+  const myLinks = {
+    links: [
+      {id: 1, title: "Github", url: "https://github.com/erickgfs"},
+      {id: 2, title: "Linkedin", url: "https://www.linkedin.com/in/erickgfs"}
+    ],
+    social: [
+      {id: 1, title: "Instagram", url: "https://www.instagram.com/erick.kroghar"},
+      {id: 2, title: "Facebook", url: "https://www.facebook.com/erickgfs"}
+    ]
+  }
+
   return (
     <div className="bg-brand-dark min-h-screen flex flex-col items-center justify-center p-4">
       <Profile imgUrl="https://github.com/erickgfs.png" name="Erick Giovanni Fonseca Silva" profession="Desenvolvedor"/>
-      <LinkButton title="Github" url="https://github.com/erickgfs"/>
-      <LinkButton title="Linkedin" url="https://www.linkedin.com/in/erickgfs"/>
+      {myLinks.links.map( link => (
+        <LinkButton key={link.id} title={link.title} url={link.url}/>
+      ))}
       <div className="flex flex-row gap-3 p-5">
-        <SocialIcons title="Instagram" url="https://www.instagram.com/erick.kroghar"/>
-        <SocialIcons title="Facebook" url="https://www.facebook.com/erickgfs"/>
+        {myLinks.social.map( link => (
+          <SocialIcons key={link.id} title={link.title} url={link.url}/>
+        ))}
       </div>
     </div>
   )
