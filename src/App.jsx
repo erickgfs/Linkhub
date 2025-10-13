@@ -6,7 +6,7 @@ import { SocialIcons } from "./components/SocialIcons";
 import "./globals.css"
 
 export function App() {
-  const [myLinks, setMyLinks] = useState({});
+  const [myLinks, setMyLinks] = useState([]);
 
   useEffect(() => {
     const fetchLinks = async () => {
@@ -29,12 +29,16 @@ export function App() {
   return (
     <div className="bg-brand-dark min-h-screen flex flex-col items-center justify-center p-4">
       <Profile imgUrl="https://github.com/erickgfs.png" name="Erick Giovanni Fonseca Silva" profession="Desenvolvedor"/>
-      {myLinks.links && myLinks.links.map( link => (
-        <LinkButton key={link.id} title={link.title} url={link.url}/>
+      {myLinks && myLinks.map( link => (
+        link.type == "LINK" && (
+          <LinkButton key={link.id} title={link.title} url={link.url}/>
+        )
       ))}
       <div className="flex flex-row gap-3 p-5">
-        {myLinks.social && myLinks.social.map( link => (
-          <SocialIcons key={link.id} title={link.title} url={link.url}/>
+        {myLinks && myLinks.map( link => (
+          link.type == "SOCIAL" && (
+            <SocialIcons key={link.id} title={link.title} url={link.url}/>
+          )
         ))}
       </div>
     </div>

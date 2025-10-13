@@ -1,25 +1,26 @@
+import 'dotenv/config';
 import express from 'express';
 import cors from 'cors';
+import { PrismaClient } from '@prisma/client';
 
 const app = express();
 const PORT = 3001;
 
 app.use(cors());
 
-app.get('/api/links', (req, res) => {
+const prisma = new PrismaClient();
 
-    const mockLinks = {
-        links: [
-            {id: 1, title: "Github", url: "https://github.com/erickgfs"},
-            {id: 2, title: "Linkedin", url: "https://www.linkedin.com/in/erickgfs"}
-        ],
-        social: [
-            {id: 1, title: "Instagram", url: "https://www.instagram.com/erick.kroghar"},
-            {id: 2, title: "Facebook", url: "https://www.facebook.com/erickgfs"}
-        ]
-    };
+app.get('/api/links', async (req, res) => {
 
-    res.json(mockLinks);
+    try {
+        const links = await prisma.link.findMany();
+
+        res.json(links);
+
+    } catch(error) {
+        console.error(`Erro ao buscar links:${error}`);
+        res.status(500).json({ error: "Não foi possivel buscar os links." })
+    }
 });
 
 app.listen(PORT, () => {
