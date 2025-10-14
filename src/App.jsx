@@ -12,7 +12,7 @@ export function App() {
     const fetchLinks = async () => {
       try {
 
-        const response = await fetch("http://localhost:3001/api/links");
+        const response = await fetch("https://linkhub-api-erick.onrender.com/api/links");
         const data = await response.json();
         console.log(data)
 
