@@ -1,6 +1,8 @@
 import 'dotenv/config';
 import express from 'express';
 import cors from 'cors';
+import bcrypt from 'bcryptjs';
+import jwt from 'jsonwebtoken';
 import { PrismaClient } from '@prisma/client';
 
 const app = express();
@@ -96,6 +98,75 @@ app.delete('/api/links/:id', async (req, res) => {
         res.json(500).json(({ error: 'Não foi possível deletar o link.'}));
     }
 });
+
+app.post('/api/register', async (req, res) => {
+    const { email, password } = req.body;
+
+    if(!email || !password) {
+        return res.status(400).json({ error: 'Email e senha são obrigatórios.' })
+    }
+
+    try {
+        const salt = await bcrypt.genSalt(10);
+        const hashedPassword = await bcrypt.hash(password, salt);
+
+        const admin = await prisma.admin.create({
+            data: {
+                email,
+                password: hashedPassword
+            }
+        });
+
+        res.status(201).json({
+            id: admin.id,
+            email: admin.email,
+        });
+
+    } catch (error) {
+        if (error.code === 'P2002') {
+            return res.status(409).json({ error: 'Este email ja está em uso.' });
+        }
+        console.error('Erro ao registrar admin:', error);
+        res.status(500).json({ error: 'Não foi possível registrar o administrador.' });
+    }
+});
+
+app.post('/api/login', async (req, res) => {
+    const { email, password } = req.body;
+
+    if(!email || !password) {
+        return res.status(400).json({ error: 'Email e senha são obrigatórios.' })
+    }
+
+    try {
+        const admin = await prisma.admin.findUnique({
+            where: {
+                email
+            },
+        })
+
+        const isPasswordValid = await bcrypt.compare(password, admin.password);
+
+        if (!admin || !isPasswordValid) {
+            return res.status(401).json({ error: 'Credenciais inválidas.' })
+        }
+
+        const token = jwt.sign(
+            {
+                id: admin.id,
+                email: admin.email
+            },
+            process.env.JWT_SECRET,
+            { expiresIn: '7d' }
+        );
+
+        res.status(200).json({ token: token });
+
+    } catch (error) {
+        console.error('Erro no login:', error);
+        res.status(500).json({ error: 'Erro interno no servidor.' })
+    }
+})
 
 app.listen(PORT, () => {
     console.log(`Servidor rodando na porta http://localhost:${PORT}`);

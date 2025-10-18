@@ -29,13 +29,13 @@ export function App() {
   return (
     <div className="bg-brand-dark min-h-screen flex flex-col items-center justify-center p-4">
       <Profile imgUrl="https://github.com/erickgfs.png" name="Erick Giovanni Fonseca Silva" profession="Desenvolvedor"/>
-      {myLinks && myLinks.map( link => (
+      {myLinks.length > 0 && myLinks.map( link => (
         link.type == "LINK" && (
           <LinkButton key={link.id} title={link.title} url={link.url}/>
         )
       ))}
       <div className="flex flex-row gap-3 p-5">
-        {myLinks && myLinks.map( link => (
+        {myLinks.length > 0 && myLinks.map( link => (
           link.type == "SOCIAL" && (
             <SocialIcons key={link.id} title={link.title} url={link.url}/>
           )
