@@ -3,6 +3,7 @@ import express from 'express';
 import cors from 'cors';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
+import authMiddleware from './middleware/auth.js'
 import { PrismaClient } from '@prisma/client';
 
 const app = express();
@@ -26,7 +27,7 @@ app.get('/api/links', async (req, res) => {
     }
 });
 
-app.post('/api/links', async (req, res) => {
+app.post('/api/links', authMiddleware, async (req, res) => {
     const { title, url, type } = req.body;
 
     if (!title || !url || !type) {
@@ -49,7 +50,7 @@ app.post('/api/links', async (req, res) => {
     }
 });
 
-app.put('/api/links/:id', async (req, res) => {
+app.put('/api/links/:id', authMiddleware, async (req, res) => {
     const { id } = req.params; // passados em rota
     const { title, url, type } = req.body;
 
@@ -79,7 +80,7 @@ app.put('/api/links/:id', async (req, res) => {
     }
 });
 
-app.delete('/api/links/:id', async (req, res) => {
+app.delete('/api/links/:id', authMiddleware, async (req, res) => {
     const { id } = req.params; // passados em rota
 
     try {
