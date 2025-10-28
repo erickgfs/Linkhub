@@ -5,10 +5,10 @@ import "./styles/globals.css"
 
 export function App() {
   return (
-    <div className='bg-brand-dark min-h-screen flex flex-col items-center justify-center p-4'>
-      <BrowserRouter>
+    <BrowserRouter>
+      <div className='bg-brand-dark min-h-screen flex flex-col items-center justify-center p-4'>
         <Router />
-      </BrowserRouter>
-    </div>
+      </div>
+    </BrowserRouter>
   )
 }

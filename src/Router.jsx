@@ -1,14 +1,17 @@
 import { Routes, Route } from 'react-router-dom';
+import { ProtectedRoute } from './components/ProtectedRoute';
 import { LinkHubPage } from './pages/LinkHubPage';
 import { Login } from './pages/Login';
 import { Dashboard } from './pages/Dashboard';
 
 export function Router() {
     return (
-        <Routes>
+        <Routes> 
             <Route path='/' element={<LinkHubPage />} />
             <Route path='/login' element={<Login />} />
-            <Route path='/admin/dashboard' element={<Dashboard />} />
+            <Route element={<ProtectedRoute />}>
+                <Route path='/admin/dashboard' element={<Dashboard />} />
+            </Route>
         </Routes>
     )
 }

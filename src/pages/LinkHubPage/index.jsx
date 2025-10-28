@@ -26,7 +26,7 @@ export function LinkHubPage() {
   },[])
 
   return (
-    <div className="bg-brand-dark min-h-screen flex flex-col items-center justify-center p-4">
+    <div className="flex flex-col items-center justify-center p-4">
       <Profile imgUrl="https://github.com/erickgfs.png" name="Erick Giovanni Fonseca Silva" profession="Desenvolvedor"/>
       {myLinks.length > 0 && myLinks.map( link => (
         link.type == "LINK" && (
